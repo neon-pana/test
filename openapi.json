@@ -1,0 +1,989 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "NS Hub - Smart Locker - API",
+    "description": "This is a sample NS Hub - Smart Locker API. ",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "/api/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "Authentication"
+    },
+    {
+      "name": "Locker Station",
+      "description": "Locker Station"
+    },
+    {
+      "name": "Locker Compartment",
+      "description": "Locker Compartment"
+    }
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Get Authentication Token",
+        "description": "Get authentication token.",
+        "operationId": "authLogin",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api_secret",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Login"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/logout": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Destroy Session Token",
+        "description": "Destroy session token.",
+        "operationId": "authLogout",
+        "parameters": [
+          {
+            "name": "session_token",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Logout"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/locker_station/list": {
+      "post": {
+        "tags": [
+          "Locker Station"
+        ],
+        "summary": "List Locker Stations",
+        "description": "Return a list of locker stations.",
+        "operationId": "lockerStationList",
+        "parameters": [
+          {
+            "name": "session_token",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer"
+            },
+            "description": ""
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LockerStation_List"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/locker_station/info": {
+      "post": {
+        "tags": [
+          "Locker Station"
+        ],
+        "summary": "Query For One Locker Station",
+        "description": "Return one locker station info by query.",
+        "operationId": "lockerStationInfo",
+        "parameters": [
+          {
+            "name": "session_token",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "locker_station_id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LockerStation_Info"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/locker_station/update": {
+      "post": {
+        "tags": [
+          "Locker Station"
+        ],
+        "summary": "Update One Locker Station",
+        "description": "Update one locker station details.",
+        "operationId": "lockerStationUpdate",
+        "parameters": [
+          {
+            "name": "session_token",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "locker_station_id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Locker station info to be update.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LockerStation_Update"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LockerStation_Info"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/locker_station/off_alarm": {
+      "post": {
+        "tags": [
+          "Locker Station"
+        ],
+        "summary": "Off Alarm For One Locker Station",
+        "description": "Off alarm for one locker station.",
+        "operationId": "lockerStationAlarmOff",
+        "parameters": [
+          {
+            "name": "session_token",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "locker_station_id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LockerStation_Info"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/locker_station/get_qr_keycode": {
+      "post": {
+        "tags": [
+          "Locker Station"
+        ],
+        "summary": "Get QR Keycode To Open One Locker Compartment",
+        "description": "Get QR keycode to open one locker compartment.",
+        "operationId": "lockerCompartmentQRKeyInfo",
+        "parameters": [
+          {
+            "name": "session_token",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "locker_station_id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "locker_compartment_id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "user_id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LockerStation_QR_Keycode"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/locker_station/verify_qr_keycode": {
+      "post": {
+        "tags": [
+          "Locker Station"
+        ],
+        "summary": "Verify QR Keycode To Open One Locker Compartment",
+        "description": "Verify QR keycode to open one locker compartment.",
+        "operationId": "lockerCompartmentQRKeyVerify",
+        "parameters": [
+          {
+            "name": "session_token",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "qr_keycode",
+            "schema": {
+              "type": "string"
+            },
+            "description": "256 characters",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LockerCompartment_List"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/locker_compartment/list": {
+      "post": {
+        "tags": [
+          "Locker Compartment"
+        ],
+        "summary": "List Locker Compartments.",
+        "description": "Return a list of locker compartments of a locker station.",
+        "operationId": "lockerCompartmentList",
+        "parameters": [
+          {
+            "name": "session_token",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "locker_station_id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer"
+            },
+            "description": ""
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LockerCompartment_List"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/locker_compartment/info": {
+      "post": {
+        "tags": [
+          "Locker Compartment"
+        ],
+        "summary": "Query For One Locker Compartment",
+        "description": "Return one locker compartment info.",
+        "operationId": "lockerCompartmentInfo",
+        "parameters": [
+          {
+            "name": "session_token",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "locker_station_id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "locker_compartment_id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LockerCompartment_Info"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/locker_compartment/update": {
+      "post": {
+        "tags": [
+          "Locker Compartment"
+        ],
+        "summary": "Update One Locker Compartment",
+        "description": "Update one locker compartment.",
+        "operationId": "lockerCompartmentUpdate",
+        "parameters": [
+          {
+            "name": "session_token",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "locker_station_id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "locker_compartment_id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Locker Compartment Update.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LockerCompartment_Update"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LockerCompartment_Info"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/locker_compartment/assign": {
+      "post": {
+        "tags": [
+          "Locker Compartment"
+        ],
+        "summary": "Assign One Locker Compartment To One User",
+        "description": "Assign one locker compartment to one user.",
+        "operationId": "lockerCompartmentAssign",
+        "parameters": [
+          {
+            "name": "session_token",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "locker_station_id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "locker_compartment_id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "user_id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LockerCompartment_Info"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/locker_compartment/unassign": {
+      "post": {
+        "tags": [
+          "Locker Compartment"
+        ],
+        "summary": "UnAssign One Locker Compartment From One User",
+        "description": "UnAssign one locker compartment from one user.",
+        "operationId": "lockerCompartmentUnAssign",
+        "parameters": [
+          {
+            "name": "session_token",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "locker_station_id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "locker_compartment_id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "user_id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LockerCompartment_Info"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/locker_compartment/open": {
+      "post": {
+        "tags": [
+          "Locker Compartment"
+        ],
+        "summary": "Open One Locker Compartment",
+        "description": "Open one locker compartment of a locker station.",
+        "operationId": "lockerCompartmentOpen",
+        "parameters": [
+          {
+            "name": "session_token",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "locker_station_id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "locker_compartment_id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LockerCompartment_Info"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Login": {
+        "type": "object",
+        "properties": {
+          "api_response": {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "session_token": {
+                "type": "string",
+                "description": "128 characters",
+                "example": "xxxxxxxxxxxxxxxx"
+              }
+            }
+          }
+        }
+      },
+      "Logout": {
+        "type": "object",
+        "properties": {
+          "api_response": {
+            "$ref": "#/components/schemas/ApiResponse"
+          }
+        }
+      },
+      "LockerStation_List": {
+        "type": "object",
+        "properties": {
+          "api_response": {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/LockerStation"
+                },
+                {
+                  "$ref": "#/components/schemas/LockerStation2"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "LockerStation_Info": {
+        "type": "object",
+        "properties": {
+          "api_response": {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          "data": {
+            "$ref": "#/components/schemas/LockerStation"
+          }
+        }
+      },
+      "LockerStation_Update": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/LockerStation"
+          }
+        }
+      },
+      "LockerStation": {
+        "type": "object",
+        "properties": {
+          "locker_station_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "locker_station_name": {
+            "type": "string",
+            "example": "Locker Station One"
+          },
+          "status": {
+            "type": "integer",
+            "description": "1 - Online, 0 - Offline",
+            "example": 1
+          }
+        }
+      },
+      "LockerStation2": {
+        "type": "object",
+        "properties": {
+          "locker_station_id": {
+            "type": "integer",
+            "example": 2
+          },
+          "locker_station_name": {
+            "type": "string",
+            "example": "Locker Station Two"
+          },
+          "status": {
+            "type": "integer",
+            "description": "1 - Online, 0 - Offline",
+            "example": 0
+          }
+        }
+      },
+      "LockerCompartment_List": {
+        "type": "object",
+        "properties": {
+          "api_response": {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/LockerCompartment"
+                },
+                {
+                  "$ref": "#/components/schemas/LockerCompartment2"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "LockerCompartment_Info": {
+        "type": "object",
+        "properties": {
+          "api_response": {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          "data": {
+            "$ref": "#/components/schemas/LockerCompartment"
+          }
+        }
+      },
+      "LockerCompartment_Update": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/LockerCompartment"
+          }
+        }
+      },
+      "LockerCompartment": {
+        "type": "object",
+        "properties": {
+          "locker_compartment_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "locker_compartment_name": {
+            "type": "string",
+            "example": "C1-R1"
+          },
+          "status": {
+            "type": "integer",
+            "description": "1 - Available, 0 - Not Available",
+            "example": 1
+          }
+        }
+      },
+      "LockerCompartment2": {
+        "type": "object",
+        "properties": {
+          "locker_compartment_id": {
+            "type": "integer",
+            "example": 2
+          },
+          "locker_compartment_name": {
+            "type": "string",
+            "example": "C1-R2"
+          },
+          "status": {
+            "type": "integer",
+            "description": "1 - Available, 0 - Not Available",
+            "example": 0
+          }
+        }
+      },
+      "LockerStation_QR_Keycode": {
+        "type": "object",
+        "properties": {
+          "api_response": {
+            "$ref": "#/components/schemas/ApiResponse"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "qr_keycode": {
+                "type": "string",
+                "description": "256 characters",
+                "example": "xxxxxxxxxxxxxxxx"
+              }
+            }
+          }
+        }
+      },
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": 0
+          },
+          "msg": {
+            "type": "string",
+            "example": "ok"
+          }
+        }
+      }
+    }
+  }
+}
